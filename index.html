@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hub de Sistemas — Secretaria Executiva da Presidência</title>
+<meta name="description" content="Registro único dos sistemas da Secretaria Executiva da Presidência.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   Design system — Sistema de Contatos
+   Azul-marinho em gradiente com padrão de cruzes · glassmorphism ·
+   sans pesada · tiles de ícone em degradê · badges
+   ========================================================================== */
+
+:root{
+  color-scheme: dark;
+
+  /* tokens do design system SecExecPres */
+  --bg-abissal:#071024;
+  --bg-profundo:#0A1834;
+  --bg-base:#0E2149;
+  --bg-medio:#123063;
+  --bg-realce:#2B5CB8;
+  --azul:#4A8DFF;
+  --azul-claro:#74ACFF;
+
+  --glass-bg:rgba(255,255,255,.055);
+  --glass-bg-hover:rgba(255,255,255,.085);
+  --glass-line:rgba(255,255,255,.11);
+  --glass-line-strong:rgba(255,255,255,.22);
+
+  --ink:#f2f6ff;
+  --ink-soft:#b9c6e6;
+  --ink-mute:#8092ba;
+
+  --accent:var(--azul);
+  --accent-cyan:#14b8e0;
+  --accent-grad:linear-gradient(135deg,#4A8DFF 0%,#74ACFF 100%);
+
+  /* exceção técnica: cor fora do azul institucional sinaliza, não decora */
+  --local:#f0a13c;
+  --local-grad:linear-gradient(135deg,#f2b14c 0%,#d9761e 100%);
+
+  --radius-xl:22px;
+  --radius-lg:16px;
+  --radius-md:12px;
+
+  --shadow-soft:0 18px 44px rgba(4,10,26,.42);
+  --shadow-tile:0 10px 24px rgba(4,10,26,.38);
+
+  --font:"Inter","Segoe UI",system-ui,-apple-system,sans-serif;
+  --mono:"Consolas","SF Mono",ui-monospace,Menlo,monospace;
+}
+
+*{box-sizing:border-box}
+
+html{-webkit-text-size-adjust:100%}
+
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:var(--font);
+  color:var(--ink);
+  background-color:var(--bg-profundo);
+  background-image:
+    /* realce radial no topo */
+    radial-gradient(1200px 640px at 50% -12%,rgba(74,141,255,.34),transparent 66%),
+    /* gradiente vertical azul-marinho */
+    linear-gradient(180deg,var(--bg-profundo) 0%,var(--bg-base) 46%,#1A3F82 100%);
+  -webkit-font-smoothing:antialiased;
+}
+
+/* padrão de cruzes em opacidade baixa, com máscara radial que apaga nas bordas */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  background-image:
+    linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);
+  background-size:72px 72px;
+  -webkit-mask-image:radial-gradient(120% 96% at 50% 30%,#000 12%,transparent 78%);
+          mask-image:radial-gradient(120% 96% at 50% 30%,#000 12%,transparent 78%);
+}
+
+/* o conteúdo fica por cima da textura */
+.topo,.corpo,.rodape{position:relative;z-index:1}
+
+a{color:inherit}
+
+/* ---------- cabeçalho ---------------------------------------------------- */
+
+.topo{
+  position:relative;
+  padding:44px 28px 30px;
+  overflow:hidden;
+}
+.topo::after{
+  content:"";
+  position:absolute; inset:0;
+  background:radial-gradient(760px 320px at 78% 120%,rgba(43,127,255,.20),transparent 70%);
+  pointer-events:none;
+}
+
+.wrap{max-width:1180px;margin:0 auto;position:relative;z-index:1}
+
+.selo{
+  display:inline-flex;align-items:center;gap:9px;
+  padding:7px 14px 7px 8px;
+  border:1px solid var(--glass-line);
+  border-radius:999px;
+  background:var(--glass-bg);
+  backdrop-filter:blur(14px) saturate(150%);
+  -webkit-backdrop-filter:blur(14px) saturate(150%);
+  font-size:11.5px;font-weight:700;letter-spacing:.10em;text-transform:uppercase;
+  color:var(--ink-soft);
+}
+.selo .ponto{
+  width:20px;height:20px;border-radius:7px;
+  background:var(--accent-grad);
+  box-shadow:0 4px 12px rgba(43,127,255,.55);
+}
+
+h1{
+  margin:20px 0 0;
+  font-size:clamp(38px,6.4vw,68px);
+  line-height:.96;
+  letter-spacing:-.035em;
+  font-weight:900;
+}
+h1 span{
+  display:block;
+  background:linear-gradient(96deg,#ffffff 6%,#cfe2ff 42%,#79c7f2 92%);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+}
+
+.apresentacao{
+  margin:18px 0 0;
+  max-width:56ch;
+  font-size:16.5px;line-height:1.62;
+  color:var(--ink-soft);
+  font-weight:450;
+}
+
+.contagem{
+  display:flex;flex-wrap:wrap;gap:10px;
+  margin-top:24px;
+}
+.contagem .chip{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:9px 15px;border-radius:12px;
+  border:1px solid var(--glass-line);
+  background:var(--glass-bg);
+  backdrop-filter:blur(14px) saturate(150%);
+  -webkit-backdrop-filter:blur(14px) saturate(150%);
+  font-size:12.5px;font-weight:700;letter-spacing:.03em;color:var(--ink-soft);
+}
+.contagem .chip b{
+  font-size:17px;font-weight:900;color:var(--ink);letter-spacing:-.02em;
+}
+
+/* ---------- barra de busca --------------------------------------------- */
+
+.busca{
+  margin-top:30px;
+  display:flex;align-items:center;gap:13px;
+  padding:15px 18px;
+  border:1px solid var(--glass-line);
+  border-radius:var(--radius-lg);
+  background:var(--glass-bg);
+  backdrop-filter:blur(18px) saturate(160%);
+  -webkit-backdrop-filter:blur(18px) saturate(160%);
+  box-shadow:var(--shadow-soft);
+}
+.busca svg{flex:none;color:var(--ink-mute)}
+.busca input{
+  flex:1;min-width:0;
+  border:0;outline:0;background:transparent;
+  font-family:var(--font);font-size:15.5px;font-weight:500;
+  color:var(--ink);
+}
+.busca input::placeholder{color:var(--ink-mute);font-weight:450}
+.busca .atalho{
+  flex:none;
+  padding:5px 10px;border-radius:8px;
+  border:1px solid var(--glass-line);
+  background:rgba(255,255,255,.05);
+  font-size:11px;font-weight:700;letter-spacing:.06em;
+  color:var(--ink-mute);
+}
+.busca[data-foco="sim"]{
+  border-color:rgba(43,127,255,.55);
+  box-shadow:0 0 0 4px rgba(43,127,255,.18),var(--shadow-soft);
+}
+
+/* ---------- corpo: lateral + grade ------------------------------------- */
+
+.corpo{
+  max-width:1180px;
+  margin:0 auto;
+  padding:34px 28px 64px;
+  display:grid;
+  grid-template-columns:212px minmax(0,1fr);
+  gap:38px;
+  align-items:start;
+}
+
+.lateral{position:sticky;top:26px}
+
+.lateral h2{
+  margin:0 0 14px;
+  font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink-mute);
+}
+.filtros{display:flex;flex-direction:column;gap:3px}
+
+.filtro{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  width:100%;
+  padding:11px 13px;
+  border:1px solid transparent;
+  border-radius:var(--radius-md);
+  background:transparent;
+  font-family:var(--font);font-size:14px;font-weight:650;
+  color:var(--ink-soft);
+  text-align:left;
+  cursor:pointer;
+  transition:background .18s ease,border-color .18s ease,color .18s ease;
+}
+.filtro:hover{background:var(--glass-bg-hover);color:var(--ink)}
+.filtro[aria-pressed="true"]{
+  background:rgba(43,127,255,.16);
+  border-color:rgba(43,127,255,.42);
+  color:#fff;
+}
+.filtro .n{
+  font-size:11.5px;font-weight:800;
+  padding:3px 8px;border-radius:7px;
+  background:rgba(255,255,255,.07);
+  color:var(--ink-mute);
+}
+.filtro[aria-pressed="true"] .n{background:rgba(255,255,255,.16);color:#fff}
+
+.lateral .nota{
+  margin-top:22px;padding:14px;
+  border:1px solid var(--glass-line);border-radius:var(--radius-md);
+  background:var(--glass-bg);
+  font-size:12px;line-height:1.6;color:var(--ink-mute);
+}
+
+/* ---------- grade de sistemas ------------------------------------------ */
+
+.grade{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(268px,1fr));
+  gap:18px;
+}
+
+.card{
+  position:relative;
+  display:flex;flex-direction:column;
+  padding:22px 22px 18px;
+  border:1px solid var(--glass-line);
+  border-radius:var(--radius-xl);
+  background:var(--glass-bg);
+  backdrop-filter:blur(20px) saturate(165%);
+  -webkit-backdrop-filter:blur(20px) saturate(165%);
+  box-shadow:var(--shadow-soft);
+  text-decoration:none;
+  overflow:hidden;
+  transition:transform .22s cubic-bezier(.2,.8,.3,1),border-color .22s ease,background .22s ease;
+}
+.card::before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(420px 200px at 8% -18%,rgba(43,127,255,.26),transparent 68%);
+  opacity:0;transition:opacity .22s ease;pointer-events:none;
+}
+.card:hover{
+  transform:translateY(-4px);
+  border-color:var(--glass-line-strong);
+  background:var(--glass-bg-hover);
+}
+.card:hover::before{opacity:1}
+.card:focus-visible{
+  outline:2px solid var(--accent);
+  outline-offset:3px;
+}
+
+.card .topo-card{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
+
+.tile{
+  flex:none;
+  width:54px;height:54px;border-radius:16px;
+  display:grid;place-items:center;
+  color:#fff;
+  box-shadow:var(--shadow-tile);
+}
+.tile svg{width:26px;height:26px}
+
+.badge{
+  flex:none;
+  padding:5px 11px;border-radius:999px;
+  border:1px solid var(--glass-line);
+  background:rgba(255,255,255,.06);
+  font-size:10.5px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--ink-soft);
+  white-space:nowrap;
+}
+
+.card h3{
+  margin:17px 0 0;
+  font-size:19px;line-height:1.24;letter-spacing:-.022em;font-weight:800;
+}
+.card p{
+  margin:9px 0 0;
+  font-size:13.5px;line-height:1.58;
+  color:var(--ink-soft);font-weight:450;
+  flex:1;
+}
+
+.rodape-card{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  margin-top:19px;padding-top:15px;
+  border-top:1px solid var(--glass-line);
+}
+.dominio{
+  min-width:0;
+  font-size:11px;font-weight:700;letter-spacing:.045em;
+  color:var(--ink-mute);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.seta{
+  flex:none;
+  width:31px;height:31px;border-radius:10px;
+  display:grid;place-items:center;
+  background:rgba(255,255,255,.08);
+  border:1px solid var(--glass-line);
+  color:var(--ink-soft);
+  transition:background .2s ease,color .2s ease,transform .2s ease;
+}
+.card:hover .seta{
+  background:var(--accent-grad);border-color:transparent;color:#fff;
+  transform:translateX(3px);
+}
+
+/* ---------- caso à parte: sistema local -------------------------------- */
+
+.card.local{
+  grid-column:1/-1;
+  border-color:rgba(240,161,60,.34);
+  background:linear-gradient(150deg,rgba(240,161,60,.13),rgba(255,255,255,.045) 52%);
+}
+.card.local::before{
+  background:radial-gradient(560px 230px at 4% -22%,rgba(240,161,60,.28),transparent 66%);
+  opacity:1;
+}
+.card.local .badge{
+  border-color:rgba(240,161,60,.42);
+  background:rgba(240,161,60,.16);
+  color:#ffd79b;
+}
+.card.local:hover .seta{background:var(--local-grad);border-color:transparent}
+.card.local .tile{background:var(--local-grad)}
+
+.aviso-local{
+  display:flex;align-items:flex-start;gap:11px;
+  margin-top:14px;padding:13px 15px;
+  border:1px solid rgba(240,161,60,.26);
+  border-radius:var(--radius-md);
+  background:rgba(240,161,60,.09);
+  font-size:12.5px;line-height:1.6;color:#f4d9b0;
+}
+.aviso-local svg{flex:none;margin-top:2px;color:var(--local)}
+.aviso-local code{
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:11.5px;
+  padding:2px 6px;border-radius:6px;
+  background:rgba(0,0,0,.26);color:#ffd79b;
+}
+
+/* ---------- estado vazio ------------------------------------------------ */
+
+.vazio{
+  grid-column:1/-1;
+  padding:52px 28px;
+  border:1px dashed var(--glass-line-strong);
+  border-radius:var(--radius-xl);
+  text-align:center;
+}
+.vazio h3{margin:0;font-size:19px;font-weight:800;letter-spacing:-.02em}
+.vazio p{margin:10px 0 0;font-size:14px;color:var(--ink-soft);line-height:1.6}
+
+/* ---------- rodapé ------------------------------------------------------ */
+
+.rodape{
+  max-width:1180px;margin:0 auto;
+  padding:26px 28px 46px;
+  border-top:1px solid var(--glass-line);
+  display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;
+  font-size:12px;font-weight:600;letter-spacing:.035em;color:var(--ink-mute);
+}
+
+/* ---------- responsivo -------------------------------------------------- */
+
+@media (max-width:880px){
+  .corpo{grid-template-columns:minmax(0,1fr);gap:26px}
+  .lateral{position:static}
+  .filtros{flex-direction:row;flex-wrap:wrap;gap:7px}
+  .filtro{width:auto}
+  .filtro .n{display:none}
+  .lateral .nota{display:none}
+  .topo{padding:34px 20px 24px}
+  .corpo{padding:26px 20px 48px}
+  .rodape{padding:22px 20px 38px}
+}
+
+@media (max-width:520px){
+  .grade{grid-template-columns:minmax(0,1fr)}
+  .busca .atalho{display:none}
+  .card.local{grid-column:auto}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important}
+  .card:hover{transform:none}
+}
+
+@media (prefers-contrast:more){
+  :root{--glass-bg:rgba(255,255,255,.10);--glass-line:rgba(255,255,255,.30)}
+}
+</style>
+</head>
+<body>
+
+<header class="topo">
+  <div class="wrap">
+    <div class="selo"><span class="ponto" aria-hidden="true"></span><span id="orgao">Secretaria Executiva da Presidência</span></div>
+
+    <h1><span id="titulo">Hub de Sistemas</span></h1>
+
+    <p class="apresentacao" id="apresentacao"></p>
+
+    <div class="contagem">
+      <div class="chip"><b id="nTotal">0</b> sistemas</div>
+      <div class="chip"><b id="nCategorias">0</b> categorias</div>
+      <div class="chip"><b id="nContas">0</b> contas GitHub</div>
+    </div>
+
+    <div class="busca" id="caixaBusca">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
+        <circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.6-3.6"></path>
+      </svg>
+      <label for="campoBusca" class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Buscar sistema</label>
+      <input id="campoBusca" type="search" placeholder="Buscar sistema, categoria ou palavra-chave…" autocomplete="off" spellcheck="false">
+      <span class="atalho" id="atalho">/</span>
+    </div>
+  </div>
+</header>
+
+<main class="corpo">
+  <aside class="lateral">
+    <h2>Categorias</h2>
+    <div class="filtros" id="filtros" role="group" aria-label="Filtrar por categoria"></div>
+    <p class="nota">A lista é definida em <strong>sistemas.js</strong>. Para incluir ou remover um sistema, edite esse arquivo e suba novamente.</p>
+  </aside>
+
+  <section class="grade" id="grade" aria-label="Sistemas"></section>
+</main>
+
+<footer class="rodape">
+  <span id="rodapeOrgao"></span>
+  <span>GitHub Pages · sem servidor · sem login único</span>
+</footer>
+
+<script src="sistemas.js"></script>
+<script>
+(function(){
+  "use strict";
+
+  /* ---- ícones (traço, 24×24) ------------------------------------------ */
+  var ICONES = {
+    fluxo:  '<path d="M5 4v5a3 3 0 0 0 3 3h8"/><path d="M5 20v-5a3 3 0 0 1 3-3h8"/><circle cx="19" cy="12" r="2.4"/><circle cx="5" cy="4" r="1.8"/><circle cx="5" cy="20" r="1.8"/>',
+    pessoas:'<circle cx="9" cy="8" r="3.2"/><path d="M3 20a6 6 0 0 1 12 0"/><path d="M16.2 6.2a3.2 3.2 0 0 1 0 6.1"/><path d="M17.5 14.6A6 6 0 0 1 21 20"/>',
+    selo:   '<circle cx="12" cy="9.5" r="5.2"/><path d="M8.4 13.6L6.6 21l5.4-2.4L17.4 21l-1.8-7.4"/><path d="M10 9.5l1.5 1.5 2.7-2.9"/>',
+    texto:  '<path d="M5 5h14"/><path d="M5 10h14"/><path d="M5 15h9"/><path d="M5 20h6"/>',
+    relogio:'<circle cx="12" cy="12" r="8.2"/><path d="M12 7.4V12l3.2 2"/>',
+    arquivo:'<path d="M14 3.5H7.4A1.6 1.6 0 0 0 5.8 5.1v13.8a1.6 1.6 0 0 0 1.6 1.6h9.2a1.6 1.6 0 0 0 1.6-1.6V8z"/><path d="M14 3.5V8h4.6"/><path d="M9 13h6"/><path d="M9 16.5h4"/>',
+    lupa:   '<circle cx="11" cy="11" r="6.6"/><path d="M20 20l-4.2-4.2"/><path d="M8.6 11h4.8"/>',
+    grade:  '<rect x="3.6" y="5" width="16.8" height="15" rx="2.4"/><path d="M3.6 10h16.8"/><path d="M8.4 3.5v3"/><path d="M15.6 3.5v3"/><path d="M8 14h2.2"/><path d="M13.6 14h2.2"/><path d="M8 17.4h2.2"/>',
+    local:  '<rect x="3" y="5" width="18" height="12" rx="2.2"/><path d="M8 21h8"/><path d="M12 17v4"/><path d="M7.4 9.6l2.2 2.2-2.2 2.2"/><path d="M12.6 14h3.6"/>'
+  };
+
+  /* ---- utilidades ------------------------------------------------------ */
+
+  function esc(s){
+    return String(s).replace(/[&<>"']/g,function(c){
+      return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
+    });
+  }
+
+  /* remove acentos de forma estável (faixa de marcas combinantes, com escapes explícitos) */
+  function semAcento(s){
+    return String(s)
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g,"")
+      .toLowerCase();
+  }
+
+  function textoBusca(item){
+    return semAcento([
+      item.nome, item.categoria, item.descricao,
+      (item.palavras||[]).join(" "), item.id,
+      /* o host e a URL entram no índice: com duas contas GitHub,
+         é natural procurar por "gutormin" ou "gtsistemastech" */
+      item.url || ""
+    ].join(" "));
+  }
+
+  /* extrai o host de exibição a partir da URL */
+  function dominio(url){
+    try{
+      var u = new URL(url);
+      return u.hostname + (u.pathname && u.pathname !== "/" ? u.pathname.replace(/\/$/,"") : "");
+    }catch(e){
+      return String(url).replace(/^https?:\/\//,"").replace(/\/$/,"");
+    }
+  }
+
+  /* ---- referências ----------------------------------------------------- */
+  var HUB = window.HUB || {sistemas:[],local:{}};
+  var SISTEMAS = Array.isArray(HUB.sistemas) ? HUB.sistemas : [];
+
+  var elGrade     = document.getElementById("grade");
+  var elFiltros   = document.getElementById("filtros");
+  var elBusca     = document.getElementById("campoBusca");
+  var elCaixa     = document.getElementById("caixaBusca");
+
+  var categoriaAtiva = "todas";
+  var termo = "";
+
+  /* ---- cabeçalho ------------------------------------------------------- */
+  document.getElementById("orgao").textContent = HUB.orgao || "Secretaria Executiva da Presidência";
+  document.getElementById("titulo").textContent = HUB.titulo || "Hub de Sistemas";
+  document.getElementById("apresentacao").textContent = HUB.apresentacao || "";
+  document.getElementById("rodapeOrgao").textContent = HUB.orgao || "";
+  document.title = (HUB.titulo || "Hub de Sistemas") + " — " + (HUB.orgao || "");
+
+  var categorias = [];
+  SISTEMAS.forEach(function(s){
+    if(s.categoria && categorias.indexOf(s.categoria) === -1) categorias.push(s.categoria);
+  });
+
+  var contas = [];
+  SISTEMAS.forEach(function(s){
+    try{
+      var h = new URL(s.url).hostname;
+      if(contas.indexOf(h) === -1) contas.push(h);
+    }catch(e){}
+  });
+
+  document.getElementById("nTotal").textContent = SISTEMAS.length;
+  document.getElementById("nCategorias").textContent = categorias.length;
+  document.getElementById("nContas").textContent = contas.length;
+
+  /* ---- filtros --------------------------------------------------------- */
+  function renderFiltros(){
+    var itens = [{chave:"todas", rotulo:"Todos", n:SISTEMAS.length}];
+    categorias.forEach(function(c){
+      var n = SISTEMAS.filter(function(s){ return s.categoria === c; }).length;
+      itens.push({chave:c, rotulo:c, n:n});
+    });
+
+    elFiltros.innerHTML = itens.map(function(it){
+      return '<button class="filtro" type="button" data-cat="' + esc(it.chave) + '" ' +
+             'aria-pressed="' + (it.chave === categoriaAtiva ? "true" : "false") + '">' +
+             '<span>' + esc(it.rotulo) + '</span>' +
+             '<span class="n">' + it.n + '</span>' +
+             '</button>';
+    }).join("");
+
+    Array.prototype.forEach.call(elFiltros.querySelectorAll(".filtro"), function(btn){
+      btn.addEventListener("click", function(){
+        categoriaAtiva = btn.getAttribute("data-cat");
+        renderFiltros();
+        renderGrade();
+      });
+    });
+  }
+
+  /* ---- cards ----------------------------------------------------------- */
+
+  /* cor do tile: vem da paleta por categoria, definida em sistemas.js */
+  function coresDoItem(item){
+    if(item.cores && item.cores.length === 2) return item.cores;
+    var paleta = HUB.paleta || {};
+    if(paleta[item.categoria] && paleta[item.categoria].length === 2){
+      return paleta[item.categoria];
+    }
+    return ["#4A8DFF", "#2B5CB8"];
+  }
+
+  function cardHTML(item){
+    var cores = coresDoItem(item);
+    var icone = ICONES[item.icone] || ICONES.arquivo;
+
+    return '' +
+      '<a class="card" href="' + esc(item.url) + '" ' +
+         'data-busca="' + esc(textoBusca(item)) + '" ' +
+         'target="_blank" rel="noopener noreferrer" ' +
+         'aria-label="Abrir ' + esc(item.nome) + ' em nova aba">' +
+        '<div class="topo-card">' +
+          '<div class="tile" style="background:linear-gradient(135deg,' + esc(cores[0]) + ',' + esc(cores[1]) + ')">' +
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" ' +
+                 'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + icone + '</svg>' +
+          '</div>' +
+          '<span class="badge">' + esc(item.categoria || "Sistema") + '</span>' +
+        '</div>' +
+        '<h3>' + esc(item.nome) + '</h3>' +
+        '<p>' + esc(item.descricao || "") + '</p>' +
+        '<div class="rodape-card">' +
+          '<span class="dominio">' + esc(dominio(item.url)) + '</span>' +
+          '<span class="seta" aria-hidden="true">' +
+            '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
+                 'stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">' +
+                 '<path d="M6 18L18 6"/><path d="M9 6h9v9"/></svg>' +
+          '</span>' +
+        '</div>' +
+      '</a>';
+  }
+
+  function cardLocalHTML(loc){
+    if(loc && loc.visivel === false) return "";
+    var nome = (loc && loc.nome) || "Sistema local";
+    var url  = (loc && loc.url)  || "http://localhost:8080";
+    var porta = (loc && loc.porta) || "8080";
+
+    return '' +
+      '<a class="card local" href="' + esc(url) + '" ' +
+         'data-busca="' + esc(semAcento([nome,"local","localhost","acesso local",porta].join(" "))) + '" ' +
+         'target="_blank" rel="noopener noreferrer" ' +
+         'aria-label="Abrir ' + esc(nome) + ' em nova aba">' +
+        '<div class="topo-card">' +
+          '<div class="tile">' +
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" ' +
+                 'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + ICONES.local + '</svg>' +
+          '</div>' +
+          '<span class="badge">Acesso local</span>' +
+        '</div>' +
+        '<h3>' + esc(nome) + '</h3>' +
+        '<p>' + esc((loc && loc.descricao) || "Aplicação web rodando no seu computador.") + '</p>' +
+        '<div class="aviso-local">' +
+          '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
+               'stroke-width="2.1" stroke-linecap="round"><circle cx="12" cy="12" r="9"/>' +
+               '<path d="M12 7.6v.2"/><path d="M12 11v5"/></svg>' +
+          '<span>Este link funciona apenas no computador onde a aplicação está rodando. ' +
+          'Em outras máquinas ele não resolve. Endereço: <code>' + esc(url) + '</code></span>' +
+        '</div>' +
+        '<div class="rodape-card">' +
+          '<span class="dominio">localhost:' + esc(porta) + '</span>' +
+          '<span class="seta" aria-hidden="true">' +
+            '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
+                 'stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">' +
+                 '<path d="M6 18L18 6"/><path d="M9 6h9v9"/></svg>' +
+          '</span>' +
+        '</div>' +
+      '</a>';
+  }
+
+  /* índice de busca do card de acesso local */
+  function textoBuscaLocal(loc){
+    return semAcento([
+      (loc && loc.nome) || "sistema local",
+      (loc && loc.descricao) || "",
+      (loc && loc.url) || "",
+      "local localhost acesso local sua maquina seu computador"
+    ].join(" "));
+  }
+
+  function renderGrade(){
+    var termoBusca = semAcento(termo).trim();
+
+    var visiveis = SISTEMAS.filter(function(item){
+      var passaCat = categoriaAtiva === "todas" || item.categoria === categoriaAtiva;
+      if(!passaCat) return false;
+      if(!termoBusca) return true;
+      return textoBusca(item).indexOf(termoBusca) !== -1;
+    });
+
+    /* o sistema local é caso à parte: fora da contagem e por último.
+       Sem filtro e sem busca aparece sempre; com busca, só se corresponder.
+       Nunca entra em categoria, porque não é um sistema publicado. */
+    var mostraLocal = false;
+    if(HUB.local && HUB.local.visivel !== false){
+      mostraLocal = (!termoBusca && categoriaAtiva === "todas") ||
+                    (termoBusca && textoBuscaLocal(HUB.local).indexOf(termoBusca) !== -1);
+    }
+
+    if(visiveis.length === 0 && !mostraLocal){
+      elGrade.innerHTML =
+        '<div class="vazio">' +
+          '<h3>Nenhum sistema encontrado</h3>' +
+          '<p>Nada corresponde a <strong>' + esc(termo) + '</strong>' +
+          (categoriaAtiva !== "todas" ? ' na categoria <strong>' + esc(categoriaAtiva) + '</strong>' : '') +
+          '. Tente outro termo ou volte para <strong>Todos</strong>.</p>' +
+        '</div>';
+      return;
+    }
+
+    var html = visiveis.map(cardHTML).join("");
+    if(mostraLocal) html += cardLocalHTML(HUB.local);
+
+    elGrade.innerHTML = html;
+  }
+
+  /* ---- busca ----------------------------------------------------------- */
+  elBusca.addEventListener("input", function(){
+    termo = elBusca.value;
+    renderGrade();
+  });
+
+  elBusca.addEventListener("focus", function(){ elCaixa.setAttribute("data-foco","sim"); });
+  elBusca.addEventListener("blur",  function(){ elCaixa.setAttribute("data-foco","nao"); });
+
+  document.addEventListener("keydown", function(ev){
+    if(ev.key === "/" && document.activeElement !== elBusca){
+      ev.preventDefault();
+      elBusca.focus();
+    }
+    if(ev.key === "Escape" && document.activeElement === elBusca){
+      elBusca.value = "";
+      termo = "";
+      renderGrade();
+      elBusca.blur();
+    }
+  });
+
+  /* ---- se não houver teclado físico, some com o atalho ----------------- */
+  if(window.matchMedia && window.matchMedia("(hover: none)").matches){
+    var at = document.getElementById("atalho");
+    if(at) at.style.display = "none";
+  }
+
+  /* ---- inicialização --------------------------------------------------- */
+  renderFiltros();
+  renderGrade();
+})();
+</script>
+</body>
+</html>
