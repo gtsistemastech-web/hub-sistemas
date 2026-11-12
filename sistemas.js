@@ -13,8 +13,8 @@ window.HUB = {
   orgao: "Secretaria Executiva da Presidência",
   titulo: "Hub de Sistemas",
   apresentacao:
-    "Registro único dos sistemas do departamento. Um ponto de entrada, " +
-    "os mesmos oito sistemas de sempre.",
+    "Registro único dos sistemas do departamento. Um só ponto de entrada " +
+    "para todos eles.",
 
   /* Paleta por categoria -----------------------------------------------
      Segue o design system do Sistema de Comunicações e Contatos.
@@ -94,6 +94,16 @@ window.HUB = {
       descricao: "Conversões e ajustes em arquivos PDF.",
       icone: "arquivo",
       palavras: ["pdf", "conversão", "arquivos", "documento"]
+    },
+    {
+      id: "compactador",
+      nome: "Compactador de arquivos",
+      categoria: "Documentos",
+      url: "https://gtsistemastech-web.github.io/compactador/",
+      descricao: "Reduz o tamanho de PDFs e imagens no próprio navegador, sem enviar arquivos.",
+      icone: "arquivo",
+      palavras: ["compactador", "compactar", "comprimir", "compressão", "reduzir",
+                 "optishrink", "pdf", "imagem", "jpg", "png", "webp", "dividir", "zip"]
     },
     {
       id: "assuntos",
